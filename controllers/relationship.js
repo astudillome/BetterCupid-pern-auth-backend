@@ -52,7 +52,41 @@ const unlikeUser = (req, res) => {
   })
 }
 
+const checkLikeStatus = (req,res) => {
+  console.log("Checking like status")
+  console.log(req.user)
+  const recipientId = req.params.id
+  const currentUser = req.user.id
+  const likeStatus = 0
+
+  db.relationship.findOne({
+    where: {
+      userId: currentUser,
+      recipient: recipientId,
+      status: likeStatus
+    }
+  }).then((data) => {
+    res.json(!!data)
+  })
+}
+
+const findMatches = (req, res) => {
+  const currentUser = req.user.id
+  console.log('The findMatches function is working')
+
+  db.relationship.findAll({
+    where: {
+      userId: currentUser,
+      status: 0
+    }
+  }).then((matches) => {
+    res.json(matches)
+  })
+}
+
 module.exports = {
   likeUser,
-  unlikeUser
+  unlikeUser,
+  checkLikeStatus,
+  findMatches
 }

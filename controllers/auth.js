@@ -2,6 +2,9 @@ const db = require('../models')
 
 const login = (req, res) => {
   console.log(req.user);
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+  //https://github.com/jaredhanson/passport/issues/570#issuecomment-638644317
+  //req.login(req.user,() => {});
   res.json({ user: req.user.id })
 }
 
