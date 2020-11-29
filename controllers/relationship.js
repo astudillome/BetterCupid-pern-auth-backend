@@ -80,6 +80,7 @@ const findMatches = (req, res) => {
       status: 0
     }
   }).then((matches) => {
+    console.log(matches)
     res.json(matches)
   })
 }
