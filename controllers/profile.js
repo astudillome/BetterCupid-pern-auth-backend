@@ -18,9 +18,8 @@ const getOwnProfile = (req, res) => {
   }
   db.profile.findByPk(
     req.user.dataValues.id
-  ).then((pizza) => {
-    console.log(pizza)
-    res.status(200).json(pizza)
+  ).then((data) => {
+    res.status(200).json(data)
   })
 }
 
@@ -92,5 +91,4 @@ module.exports = {
   createProfile,
   deleteProfile,
   editProfile,
-  // getUser
 }
