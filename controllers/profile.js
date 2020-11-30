@@ -1,7 +1,6 @@
 const db = require('../models')
 
 // GET request for all profiles
-
 const getAllProfiles = (req, res) => {
   db.profile.findAll().then(foundProfiles => {
     if (!foundProfiles) return res.json({
@@ -11,27 +10,16 @@ const getAllProfiles = (req, res) => {
   })
 }
 
-
-// this will help us pull the user 
-// 
-// const getUser = (req,res) => {
-//   db.user.findByPK(req.user.dataValues.id).then((pizza) => {
-//     res.json({ user: pizza})
-//   })
-// }
-
 //GET request for finding your own profile 
 const getOwnProfile = (req, res) => {
-  // console.log(req.user.dataValues.id);
   if (!req.user) {
     res.sendStatus(401);
     return;
   }
   db.profile.findByPk(
     req.user.dataValues.id
-  ).then((pizza) => {
-    console.log(pizza)
-    res.status(200).json(pizza)
+  ).then((data) => {
+    res.status(200).json(data)
   })
 }
 
@@ -103,5 +91,4 @@ module.exports = {
   createProfile,
   deleteProfile,
   editProfile,
-  // getUser
 }
