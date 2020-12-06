@@ -1,7 +1,6 @@
 const db = require('../models')
 
 // GET request for all profiles
-
 const getAllProfiles = (req, res) => {
   db.profile.findAll().then(foundProfiles => {
     if (!foundProfiles) return res.json({
@@ -11,34 +10,21 @@ const getAllProfiles = (req, res) => {
   })
 }
 
-
-// this will help us pull the user 
-// 
-// const getUser = (req,res) => {
-//   db.user.findByPK(req.user.dataValues.id).then((pizza) => {
-//     res.json({ user: pizza})
-//   })
-// }
-
 //GET request for finding your own profile 
 const getOwnProfile = (req, res) => {
-  // console.log(req.user.dataValues.id);
   if (!req.user) {
     res.sendStatus(401);
     return;
   }
   db.profile.findByPk(
     req.user.dataValues.id
-  ).then((pizza) => {
-    console.log(pizza)
-    res.status(200).json(pizza)
+  ).then((data) => {
+    res.status(200).json(data)
   })
 }
 
 //GET request for viewing another profile 
 const viewProfile = (req, res) => {
-  const { targetProfile } = req.body
-  console.log(targetProfile)
   db.profile.findOne({
     where: { userId: req.params.id }
   }).then((profile) => {
@@ -46,6 +32,7 @@ const viewProfile = (req, res) => {
   })
 }
 
+//POST request to create profile
 const createProfile = (req, res) => {
   const { displayName, gender, profilePic, city, geoState, aboutMe } = req.body
   console.log(`The current user is ${req.user.dataValues.id}`)
@@ -64,18 +51,20 @@ const createProfile = (req, res) => {
   })
 }
 
+
+//PUT request to edit profile
 const editProfile = (req, res) => {
- 
+
   db.profile.update(
     req.body
-  , {
-    where: {
-      id: req.body.id,
-    }
-  }) 
-  .then((editedProfile) => {
-    res.status(200).json({ profile: editedProfile })
-  })
+    , {
+      where: {
+        id: req.body.id,
+      }
+    })
+    .then((editedProfile) => {
+      res.status(200).json({ profile: editedProfile })
+    })
 }
 
 //DELETE request to remove a profile
@@ -103,5 +92,4 @@ module.exports = {
   createProfile,
   deleteProfile,
   editProfile,
-  // getUser
 }
